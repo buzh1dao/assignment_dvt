@@ -9,45 +9,102 @@
         <title>Let's get started</title>
     </head>
     <body>
-        <!-- Content section of the document -->
 		<div class="box">
-		<form>
-		<div>
-			<p>Let's get started</p>
-			<fieldset>
-			<select id="country" name="country">
-				<option value="estonia">Estonia</option>
-				<option value="france">France</option>
-				<option value="usa">USA</option>
-			</select>
-			</fieldset>
-			<fieldset>
-			<legend>Email</legend>
-			<input type="text" placeholder="Enter Email" name="email" class="text" required>
-			</fieldset>
-			<fieldset>
-			<legend>Create your password</legend>
-			<input type="password" placeholder="Enter Password" name="psw" class="text" required>
-			</fieldset>
-			<fieldset>
-			<legend>Repeat Password</legend>
-			<input type="password" placeholder="Re-enter Password" name="psw-repeat" class="text" required>
-			</fieldset>
-			<div>
-			<label>
-				<input type="checkbox" name="tnc" style="margin-bottom:15px"> I agree with <a href=#>Terms & Conditions</a>
-			</label>
-			</div>
-			<div>
-			<input type="submit" value="Sign Up">
-			</div>
-			<div>
-			<a href=#>Log In</a>
-			</div>
+			<form id="signup" novalidate>
+				<div>
+					<p>Let's get started</p>
+					<fieldset>
+					<legend>Country of residence</legend>
+						<select id="country" name="country">
+							<option value="estonia">Estonia</option>
+							<option value="france">France</option>
+							<option value="usa">USA</option>
+						</select>
+					</fieldset>
+					<fieldset id="emailfield">
+						<legend id="emaillegend">Email</legend>
+						<input type="email" placeholder="Enter Email" name="email" id="email" class="text" required>
+					</fieldset>
+					<fieldset id="pwfield">
+						<legend id="pwlegend">Create your password</legend>
+						<input type="password" placeholder="Enter Password" name="pw1" id="pw1" class="text" required>
+					</fieldset>
+					<fieldset id="pwfield2">
+						<legend>Repeat Password</legend>
+						<input type="password" placeholder="Re-enter Password" name="pw2" id="pw2" class="text" required>
+					</fieldset>
+					<div>
+						<label>
+							<input type="checkbox" name="tick" id="tick" style="margin-bottom:15px"> I agree with <a href=#>Terms & Conditions</a>
+						</label>
+					</div>
+					<input type="submit" value="Sign Up">
+					<div>
+						<a href=#>Log In</a>
+					</div>
+				</div>
+			</form>
 		</div>
-		</form>
-		</div>
-	<footer>
-		<a href=#>Customer support</a>
+		<footer>
+			<a href=#>Customer support</a>
+		</footer>
+	
+        <script>
+		const form = document.getElementById('signup');
+		const country = document.getElementById('country');
+		const email = document.getElementById('email');
+		const pw1 = document.getElementById('pw1');
+		const pw2 = document.getElementById('pw2');
+		const tick = document.getElementById('tick');
+		
+		function email_check() {
+			if(!/^\w+(\.\w+)*@\w+(\.\w+)$/.test(email.value)) {
+				email.setCustomValidity('Wrong email format');
+				document.getElementById("emaillegend").innerHTML = "Wrong email";
+				document.getElementById("emailfield").style.color = "red";
+				document.getElementById("email").style.color = "red";
+				document.getElementById("emailfield").style.borderColor = "red";
+				return false;
+			}
+			else
+				email.setCustomValidity('');
+			return true;
+		}
+
+		function pw_check() {
+			if(pw1!==pw2) {
+				pw2.setCustomValidity('Password not matching');
+				document.getElementById("pwlegend").innerHTML = "Password not matching";
+				document.getElementById("pwfield").style.color = "red";
+				document.getElementById("pwfield").style.borderColor = "red";
+				document.getElementById("pwfield2").style.color = "red";
+				document.getElementById("pwfield2").style.borderColor = "red";
+				return false;
+			}
+
+			else
+				pw2.setCustomValidity('');
+			return true;
+		}
+
+		function tick_check() {
+			console.log(tick.value);
+			if(!tick.checked) {
+				tick.setCustomValidity('Please agree to the terms and conditions');
+				return false;
+			}
+			else 
+				tick.setCustomValidity('');
+
+			return true;
+		}
+
+		form.addEventListener('submit', function(e) {
+
+			e.preventDefault();
+			if(email_check() && pw_check() && tick_check()) 
+				form.submit();
+		});
+		</script>
     </body>
 </html>
